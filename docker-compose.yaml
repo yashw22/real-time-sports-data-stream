@@ -32,3 +32,10 @@ services:
       - 5000:5000
     depends_on:
       - producer
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "8080:80"
+    # restart: always
