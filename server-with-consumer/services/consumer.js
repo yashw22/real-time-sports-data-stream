@@ -16,7 +16,7 @@ async function consumeMessages() {
   await consumer.run({
     eachMessage: async ({ topic, partition, message }) => {
       latestMessage = JSON.parse(message.value.toString());
-      console.log("Consumed message:", latestMessage);
+      console.log("Consumed message:", JSON.stringify(latestMessage));
     },
   });
 }
