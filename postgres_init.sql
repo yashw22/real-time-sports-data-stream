@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS cricket_matches (
+CREATE TABLE IF NOT EXISTS cricket_match (
     id SERIAL PRIMARY KEY,
     game_id VARCHAR(32) NOT NULL,
     match_type VARCHAR(16) NOT NULL,
@@ -11,5 +11,6 @@ CREATE TABLE IF NOT EXISTS cricket_matches (
     team_b varchar(32) NOT NULL,
     players_a JSONB NOT NULL,
     players_b JSONB NOT NULL,
+    starts_at TIMESTAMP NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
