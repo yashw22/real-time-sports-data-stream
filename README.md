@@ -1,6 +1,6 @@
 # **Real-Time Sports Data Stream**
 
-![Architecture](images/logo.png "This is the project logo")
+![Architecture](./architecture.png)
 
 ---
 
