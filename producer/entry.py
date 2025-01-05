@@ -36,7 +36,6 @@ def create_producers():
     games = load_games(offset_secs=2)
     game_step_time = new_game_offset_time*(1+len(games))
 
-    processes = []
     try:
         with concurrent.futures.ThreadPoolExecutor() as executor:
             futures = []
