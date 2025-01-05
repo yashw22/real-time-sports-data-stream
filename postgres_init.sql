@@ -1,6 +1,15 @@
+CREATE TABLE IF NOT EXISTS live_match (
+    id SERIAL PRIMARY KEY,
+    topic VARCHAR(32) NOT NULL,
+    game_id VARCHAR(32) UNIQUE NOT NULL,
+    starts_at TIMESTAMP NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE IF NOT EXISTS cricket_match (
     id SERIAL PRIMARY KEY,
     game_id VARCHAR(32) NOT NULL,
+    FOREIGN KEY (game_id)  REFERENCES live_match (game_id),
     match_type VARCHAR(16) NOT NULL,
     match_gender varchar(16) NOT NULL,
     match_date VARCHAR(16) NOT NULL,

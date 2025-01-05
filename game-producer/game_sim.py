@@ -85,8 +85,7 @@ def game_setup(topic, game_id, game_step_time, game_duration):
         admin_client = KafkaAdminClient(
             bootstrap_servers=BROKER_SERVER, client_id=f'{game_id}_game_simulator')
         create_topic_if_not_exists(admin_client, topic)
-        producer = KafkaProducer(bootstrap_servers=BROKER_SERVER,
-                                 key_serializer=str.encode,
+        producer = KafkaProducer(bootstrap_servers=BROKER_SERVER, key_serializer=str.encode,
                                  value_serializer=lambda v: json.dumps(v).encode('utf-8'))
         logging.info(f"Starting [{game_id}] simulation.")
 

@@ -5,7 +5,7 @@ import time
 import json
 import random
 
-from postgres_api import register_cricket_match
+from postgres_ops import register_live_match, register_cricket_match
 
 DATA_FOLDER_PATH = os.path.join(os.getcwd(), "game_data")
 
@@ -23,6 +23,7 @@ def load_games(offset_secs):
             games.append((topic, game_id))
             file_path = os.path.join(DATA_FOLDER_PATH, f'{game_id}.json')
             with open(file_path, "r") as file:
+                register_live_match(topic, game_id, curr_offset_secs)
                 register_cricket_match(
                     game_id, json.load(file)['info'], curr_offset_secs)
             curr_offset_secs += offset_secs
@@ -58,7 +59,8 @@ if __name__ == "__main__":
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s [%(levelname)s] %(message)s",
-        handlers=[logging.StreamHandler()]
+        handlers=[logging.FileHandler("producer.log"),
+                  logging.StreamHandler()]
     )
     logging.info("Starting game simulations...")
     start_game_subprocesses()
