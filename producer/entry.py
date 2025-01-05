@@ -1,10 +1,11 @@
 import os
 import logging
-import subprocess
 import time
 import json
 import random
+import concurrent.futures
 
+from producer import setup_producer
 from postgres_ops import register_live_match, register_cricket_match
 
 DATA_FOLDER_PATH = os.path.join(os.getcwd(), "game_data")
@@ -30,30 +31,24 @@ def load_games(offset_secs):
     return games
 
 
-def start_game_subprocesses():
-    # topic = 'cricket'
-    # games = ["game-1", "game-2", "game-3"]
-    games = load_games(60)
-    new_game_offset_time = 60
+def create_producers():
+    new_game_offset_time = 2
+    games = load_games(offset_secs=2)
     game_step_time = new_game_offset_time*(1+len(games))
-    game_duration = 5*60
-    print(games)
 
     processes = []
     try:
-        for topic, game_id in games:
-            process = subprocess.Popen(
-                ["python", "game_sim.py", topic, game_id, str(game_step_time), str(game_duration)])
-            processes.append((game_id, process))
-            time.sleep(new_game_offset_time)
-
-        for _, process in processes:
-            process.wait()
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            futures = []
+            for topic, game_id in games:
+                futures.append(executor.submit(setup_producer, topic, game_id, game_step_time))
+                time.sleep(new_game_offset_time)
+            for future in futures:
+                future.result()
 
         logging.info("All game simulations have completed.")
     except Exception as e:
         logging.error(f"Error while running game simulations: {e}")
-
 
 if __name__ == "__main__":
     logging.basicConfig(
@@ -63,4 +58,4 @@ if __name__ == "__main__":
                   logging.StreamHandler()]
     )
     logging.info("Starting game simulations...")
-    start_game_subprocesses()
+    create_producers()

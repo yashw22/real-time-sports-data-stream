@@ -37,7 +37,7 @@ def register_live_match(topic, game_id, offset_seconds):
         "game_id": game_id,
         "starts_at": datetime.now() + timedelta(seconds=offset_seconds),
     }
-    execute_query(insert_query, insert_data, f"create {topic}, {game_id} live match" )
+    execute_query(insert_query, insert_data, f"create ({topic}, {game_id}) live match" )
 
 
 def register_cricket_match(game_id, game_info, offset_seconds):
@@ -62,4 +62,4 @@ def register_cricket_match(game_id, game_info, offset_seconds):
         "players_b": json.dumps(game_info["players"][game_info["teams"][1]]),
         "starts_at": datetime.now() + timedelta(seconds=offset_seconds),
     }
-    execute_query(insert_query, insert_data, f"create {game_id} cricket match")
+    execute_query(insert_query, insert_data, f"create (cricket, {game_id}) cricket match")
