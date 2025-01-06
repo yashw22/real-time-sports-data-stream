@@ -1,5 +1,11 @@
 const pool = require("../config/postgres");
 
+const getAllCricketMatches = async () => {
+  const query = "SELECT * FROM cricket_match";
+  const result = await pool.query(query);
+  return result.rows;
+};
+
 const getCricketMatchByGameId = async (gameId) => {
   const query = "SELECT * FROM cricket_match WHERE game_id = $1";
   const values = [gameId];
@@ -7,4 +13,4 @@ const getCricketMatchByGameId = async (gameId) => {
   return result.rows[0];
 };
 
-module.exports = { getCricketMatchByGameId };
+module.exports = { getAllCricketMatches, getCricketMatchByGameId };
