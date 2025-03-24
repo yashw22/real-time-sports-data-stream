@@ -34,4 +34,4 @@ The architecture consists of multiple components working together:
 - The backend (Node.js + Express) processes requests and communicates with a Kafka consumer.  
 - Kafka facilitates event-driven communication between services.  
 - A Python-based simulator acts as a Kafka producer, generating events for game simulations.  
-- A PostgreSQL database stores relevant data.  
+- A PostgreSQL database that stores relevant data.  
